@@ -102,7 +102,7 @@ class CertsController extends \BaseController {
 		Input::file('csr')->move($this->certDir, $randomFileName.'.csr');
 
 		// Check if CSR is valid and user is allowed to sign requests for the given domain
-		$process = new Process("cd {$this->certDir} && LC_ALL=C openssl req -text -noout -verify -in {$randomFileName}.csr | grep Subject | grep -o 'CN=.*,' | cut -c 4- | sed 's/.$//'");
+		$process = new Process("cd {$this->certDir} && LC_ALL=C openssl req -text -noout -in {$randomFileName}.csr | grep Subject | grep -o 'CN=.*,' | cut -c 4- | sed 's/.$//'");
 		$process->run();
 		$csrDomain = trim($process->getOutput());
 
